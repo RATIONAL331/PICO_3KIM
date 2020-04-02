@@ -14,8 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
+from contents.views import HomeView
+from django.shortcuts import redirect
+
+class NonUserTemplateView(TemplateView):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_anonymous:
+            return redirect('contents_home')
+        return super(NonUserTemplateView, self).dispatch(request, *args, **kwargs)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('apis/', include('apis.urls')),
+    path('', HomeView.as_view(), name='contents_home'),
+    path('login/', NonUserTemplateView.as_view(template_name='login.html'), name="login"),
+    path('register/', NonUserTemplateView.as_view(template_name='register.html'), name='register')
 ]
