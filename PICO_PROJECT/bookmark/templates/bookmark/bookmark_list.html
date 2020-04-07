@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Django Bookmark List</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}bookmark_list.html{% endblock %}
+{% block content %}
     <h1>Bookmark List</h1>
+    <br>
     <ul>
         {% for bookmark in object_list %}
         <li><a href="{% url 'bookmark:detail' bookmark.id %}">{{ bookmark }}</a></li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

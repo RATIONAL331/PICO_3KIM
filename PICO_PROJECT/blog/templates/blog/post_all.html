@@ -1,28 +1,22 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post All</title>
-</head>
-<body>
-    <h1>Blog List</h1>
-    <br>
-    {% for post in posts %}
-    <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
-    {{ post.mofidy_dt|date:"N d, Y" }}
-    <p>{{ post.description }}</p>
-    {% endfor %}
-    <br>
-    <div>
-        <span>
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">PreviousPage</a>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
-            {% endif %}
-        </span>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}post_all.html{% endblock %}
+{% block content %}
+<h1>Blog List</h1>
+<br>
+{% for post in posts %}
+<h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
+{{ post.mofidy_dt|date:"N d, Y" }}
+<p>{{ post.description }}</p>
+{% endfor %}
+<br>
+<div>
+    <span>
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">PreviousPage</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
