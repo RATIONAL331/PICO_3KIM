@@ -1,28 +1,24 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>post_archive_year</title>
-</head>
-<body>
-    <h1>Post Archives for {{ date|date:"Y" }}</h1>
+{% extends "base.html" %}
+{% block title %}post_archive_year.html{% endblock %}
+{% block content %}
+<h1>Post Archives for {{ year|date:"Y" }}</h1>
+<ul>
+    {% for date in date_list %}
+    <li style="display: inline;">
+        <a href="{% url 'blog:post_month_archive' date|date:'Y' date|date:'m' %}"
+        class="btn btn-outline-primary btn-sm mx-1">
+        {{ date|date:"F" }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<br>
+<div>
     <ul>
-        {% for date in date_list %}
-        <li style="display: inline;">
-            <a href="{% url 'blog:post_month_archive' date|date:'Y' date|date:'m' %}">{{ date|date:"F" }}</a>
+        {% for post in object_list %}
+        <li class="h5">{{ post.modify_dt|date:"Y-m-d" }}&emsp;
+            <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
         </li>
         {% endfor %}
     </ul>
-    <br>
-    <div>
-        <ul>
-            {% for post in object_list %}
-            <li>{{ post.modify_dt|date:"Y-m-d" }}&nbsp;&nbsp;&nbsp;
-                <a href="{{ post.get_absolute_url }}"><strong>{{ post.title }}</strong></a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+</div>
+{% endblock %}
