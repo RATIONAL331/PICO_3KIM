@@ -21,6 +21,7 @@ class PostAV(ArchiveIndexView):
 class PostYAV(YearArchiveView):
     model = Post
     date_field = 'modify_dt'
+    make_object_list = True
 
 class PostMAV(MonthArchiveView):
     model = Post
