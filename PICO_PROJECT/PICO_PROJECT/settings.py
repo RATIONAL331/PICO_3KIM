@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
-    
+    'crispy_forms',
+
 ]
 
 MIDDLEWARE = [
@@ -135,4 +136,6 @@ TAGGIT_CASE_INSENSITIVE = True
 TAGGIT_LIMIT = 50
 
 DISQUS_SHORTNAME = 'picosmu'
-DISQUS_MY_DOMAIN = 'http://192.168.219.102:8000'
+DISQUS_MY_DOMAIN = 'http://127.0.0.1:8000'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
