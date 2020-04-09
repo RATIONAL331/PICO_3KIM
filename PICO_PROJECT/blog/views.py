@@ -6,6 +6,9 @@ from .models import Post
 
 from django.conf import settings
 
+from django.db.models import Q
+from django.shortcuts import render
+
 # Create your views here.
 class PostLV(ListView):
     model = Post
@@ -59,3 +62,11 @@ class TaggedObjectLV(ListView):
         context = super().get_context_data(**kwargs)
         context['tagname'] = self.kwargs['tag']
         return context
+
+def post_search(request):
+    template_name = "blog/post_search.html"
+    search_word = request.GET.get('search_word', '')
+    if search_word:
+        br = Post.objects.filter(Q(title__icontains=search_word) | Q(description__icontains=search_word) | Q(content__icontains=search_word)).distinct()
+    return render(request, template_name, {'post_search' : br, 'search_word':search_word})
+    
