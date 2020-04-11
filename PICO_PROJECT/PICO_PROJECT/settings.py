@@ -37,12 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookmark.apps.BookmarkConfig',
-    'blog.apps.BlogConfig',
+
+    'crispy_forms',
+    'sorl.thumbnail',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
-    'crispy_forms',
 
+    'bookmark.apps.BookmarkConfig',
+    'blog.apps.BlogConfig',
+    'photo.apps.PhotoConfig',
+    
 ]
 
 MIDDLEWARE = [
