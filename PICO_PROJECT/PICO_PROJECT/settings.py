@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'crispy_forms',
+    'widget_tweaks',
+
     'sorl.thumbnail',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
@@ -142,4 +143,4 @@ TAGGIT_LIMIT = 50
 DISQUS_SHORTNAME = 'picosmu'
 DISQUS_MY_DOMAIN = 'http://127.0.0.1:8000'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGIN_REDIRECT_URL = '/'
