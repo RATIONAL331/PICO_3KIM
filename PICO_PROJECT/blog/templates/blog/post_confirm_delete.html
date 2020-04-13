@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}post_confirm_delete.html{% endblock %}
+{% block content %}
+<h1>Post Delete</h1>
+<br>
+<form action="." method="POST" class="card pt-3" style="background-color: #222; color:#eee; border-color:#eee;">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}" ?</p>
+    <input type="submit" value="Confirm" class="btn btn-danger btn-sm">
+</form>
+{% endblock %}

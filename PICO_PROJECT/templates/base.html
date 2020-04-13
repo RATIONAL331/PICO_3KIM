@@ -44,6 +44,33 @@
                 <a class="dropdown-item" href="{% url 'blog:post_archive' %}">Archive</a>
               </div>
           </li>
+
+          <li class="nav-item dropdown btn btn-dark mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Add
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'bookmark:add' %}">Bookmark</a>
+                <a class="dropdown-item" href="{% url 'blog:add' %}">Post</a>
+                <div class="dropdown-divider"></div>
+                <a href="" class="dropdown-item">Album</a>
+                <a href="" class="dropdown-item">Photo</a>
+              </div>
+          </li>
+
+          <li class="nav-item dropdown btn btn-dark mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Change
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'bookmark:change' %}">Bookmark</a>
+                <a class="dropdown-item" href="{% url 'blog:change' %}">Post</a>
+                <div class="dropdown-divider"></div>
+                <a href="" class="dropdown-item">Album</a>
+                <a href="" class="dropdown-item">Photo</a>
+              </div>
+          </li>
+
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{% url 'blog:search' %}" method="GET">
           {% csrf_token %}
