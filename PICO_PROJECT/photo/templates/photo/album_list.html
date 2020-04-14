@@ -12,7 +12,7 @@
 {% for item in object_list %}
     <div class="mt-5">
         <a href="{% url 'photo:album_detail' item.id %}" class="h2">{{ item.name }}</a>&emsp;
-        <span class="font-italic h5">{{ item.description }}</span>
+        <span class="font-italic h5">{{ item.description }} - {{ item.owner }}</span>
     </div>
     <hr style="margin: 0 0 20px 0;">
     <div class="row">
