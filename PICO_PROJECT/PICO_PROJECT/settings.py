@@ -37,11 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+    'disqus',
+    'django.contrib.sites',
+    
+
     'bookmark.apps.BookmarkConfig',
     'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
-    'crispy_forms',
 
 ]
 
@@ -135,7 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TAGGIT_CASE_INSENSITIVE = True
 TAGGIT_LIMIT = 50
 
-DISQUS_SHORTNAME = 'picosmu'
-DISQUS_MY_DOMAIN = 'http://127.0.0.1:8000'
+SITE_ID = 1
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+DISQUS_WEBSITE_SHORTNAME = 'picosmu'
