@@ -45,12 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     
     'bookmark.apps.BookmarkConfig',
+
     'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
 
-    'bookmark.apps.BookmarkConfig',
-    'blog.apps.BlogConfig',
     'photo.apps.PhotoConfig',
     
 ]
@@ -146,6 +145,6 @@ TAGGIT_CASE_INSENSITIVE = True
 TAGGIT_LIMIT = 50
 
 SITE_ID = 1
+DISQUS_WEBSITE_SHORTNAME = 'picosmu'
 
 LOGIN_REDIRECT_URL = '/'
-DISQUS_WEBSITE_SHORTNAME = 'picosmu'
