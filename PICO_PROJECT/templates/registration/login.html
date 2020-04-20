@@ -25,6 +25,9 @@
             <input type="submit" value="Log in" class="btn btn-info">
             <input type="hidden" name="text" value="{{ next }}">
         </div>
+        <div class="offset-sm-2 col-sm-5">
+            <p class="btn btn-danger"><a href="{% url 'password_reset' %}">Forgot Password</a></p>
+        </div>
     </div>
 </form>
 {% endblock %}

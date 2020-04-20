@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.mixins import AccessMixin
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import RegisterForm
@@ -33,8 +33,7 @@ def register(request):
             mail_subject = 'Activate your blog account.'
             message = render_to_string('registration/acc_active_email.html', {
                 'user': user,
-                # 'domain': current_site.domain,
-                'domain': '127.0.0.1:8000',
+                'domain': current_site.domain,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
@@ -62,7 +61,7 @@ def activate(request, uidb64, token):
         # return redirect('home')
         return render(request, 'registration/registration_done.html')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return Http404('Activation link is invalid!')
     
 class OwnerOnlyMixin(AccessMixin):
     raise_exception = True
