@@ -86,6 +86,7 @@
             {% if user.is_active %}
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><i class="fas fa-user"></i>&ensp;{% firstof user.get_short_name user.get_username %}&ensp;</a>
             <div class="dropdown-menu">
+              <a href="{% url 'profile' user.get_username %}" class="dropdown-item">Profile</a>
               <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
               <a href="{% url 'password_change' %}" class="dropdown-item">Change Password</a>
             </div>
