@@ -4,6 +4,7 @@ from django.shortcuts import Http404
 from django.views.generic import TemplateView
 
 from .models import Profile
+from photo.models import Photo
 
 class ProfileView(TemplateView):
     template_name = 'profile.html'
@@ -16,4 +17,5 @@ class ProfileView(TemplateView):
             raise Http404()
         
         profile = user.profile
-        return render(request, 'profile.html', {'profile':profile})
+        photos = Photo.objects.filter(owner=user)
+        return render(request, 'profile.html', {'profile':profile, 'photos':photos})
