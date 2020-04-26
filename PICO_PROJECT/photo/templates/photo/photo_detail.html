@@ -23,4 +23,9 @@
         </p>
     </ul>
 </div>
+{% ifnotequal request.user.username object.owner.username %}
+<div>
+    <a href="{% url 'photo:photo_donate' object.id %}" class="btn btn-primary">donate</a>
+</div>
+{% endifnotequal %}
 {% endblock %}

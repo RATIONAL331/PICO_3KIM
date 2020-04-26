@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}photo_detail.html{% endblock %}
+{% block content %}
+<h2 class="mt-5">{{ object.title }}</h2>
+<div class="row">
+    <div class="col-md-9">
+        <a href="{{ object.image.url }}">
+            <img src="{{ object.image.url }}" sylte="width: 100%;">
+        </a>
+    </div>
+    <ul class="col-md-3 mt-3">
+        <li>
+            <form action="">
+                <input type="number" name="" id="">
+                <input type="submit" value="Donate">
+            </form>
+        </li>
+        
+    </ul>
+    
+</div>
+
+{% endblock %}

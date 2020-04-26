@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
-from PICO_PROJECT.views import OwnerOnlyMixin
+from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 from .forms import PhotoInlineFormSet
 # Create your views here.
 
@@ -105,3 +105,8 @@ class AlbumPhotoUV(OwnerOnlyMixin, UpdateView):
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
+    model = Photo
+    template_name = 'photo/photo_donate.html'
+    
