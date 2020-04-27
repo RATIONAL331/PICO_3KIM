@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from . import views
-from core.views import ProfileView
+from core.views import ProfileView, ChargeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('bookmark/', include('bookmark.urls')),
     path('blog/', include('blog.urls')),
     path('explore/', include('photo.urls')),
+    path('charge/', ChargeView.as_view(), name='charge'),
     path('<str:username>/', ProfileView.as_view(), name='profile'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

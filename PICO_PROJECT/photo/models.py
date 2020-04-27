@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Photo(models.Model):
     title = models.CharField('TITLE', max_length=30)
     description = models.TextField('Photo Description', blank=True)
-    PICOIN = models.PositiveIntegerField(default=0)
+    PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
     # image = ThumbnailImageField(upload_to='photo/%Y/%m')
     image = models.ImageField('IMAGE', upload_to='SorlPhoto/%Y')
     upload_dt = models.DateTimeField('Upload Date', auto_now_add=True)
