@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from photo.models import Photo
+
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,3 +22,9 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+class ProfilePicoInfoLog(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='PROFILE')
+
+class PhotoicoInfoLog(models.Model):
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='PHOTO')

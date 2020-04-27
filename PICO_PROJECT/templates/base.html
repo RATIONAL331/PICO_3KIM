@@ -32,7 +32,7 @@
             <a class="nav-link" href="{% url 'blog:index' %}">Blog<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item btn btn-dark mx-1">
-            <a class="nav-link" href="{% url 'photo:index' %}">Photo<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'photo:index' %}">Explore<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item dropdown btn btn-dark mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +53,6 @@
                 <a class="dropdown-item" href="{% url 'bookmark:add' %}">Bookmark</a>
                 <a class="dropdown-item" href="{% url 'blog:add' %}">Post</a>
                 <div class="dropdown-divider"></div>
-                <a href="{% url 'photo:album_add' %}" class="dropdown-item">Album</a>
                 <a href="{% url 'photo:photo_add' %}" class="dropdown-item">Photo</a>
               </div>
           </li>
@@ -66,7 +65,6 @@
                 <a class="dropdown-item" href="{% url 'bookmark:change' %}">Bookmark</a>
                 <a class="dropdown-item" href="{% url 'blog:change' %}">Post</a>
                 <div class="dropdown-divider"></div>
-                <a href="{% url 'photo:album_change' %}" class="dropdown-item">Album</a>
                 <a href="{% url 'photo:photo_change' %}" class="dropdown-item">Photo</a>
               </div>
           </li>
