@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import Http404
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Profile
 from photo.models import Photo
@@ -19,3 +20,8 @@ class ProfileView(TemplateView):
         profile = user.profile
         photos = Photo.objects.filter(owner=user)
         return render(request, 'profile.html', {'profile':profile, 'photos':photos})
+
+class ChargeView(LoginRequiredMixin, TemplateView):
+    template_name = 'charge.html'
+    model = User
+    

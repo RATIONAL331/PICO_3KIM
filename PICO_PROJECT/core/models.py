@@ -8,7 +8,7 @@ from photo.models import Photo
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    PICOIN = models.PositiveIntegerField(default=0, blank=True)
+    PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
 
     def __str__(self):
         return self.user.email
@@ -25,6 +25,25 @@ def save_user_profile(sender, instance, **kwargs):
 
 class ProfilePicoInfoLog(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='PROFILE')
+    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='DONATOR')
+    PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
+    where = models.ForeignKey(Photo, on_delete=models.PROTECT, verbose_name='WHERE', null=True)
+    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True)
+
+    class Meta:
+        ordering = ('-donate_dt', )
+
+    def __str__(self):
+        return '%s %d' %(self.donator.username, self.PICOIN)
 
 class PhotoicoInfoLog(models.Model):
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='PHOTO')
+    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
+    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True)
+
+    class Meta:
+        ordering = ('-donate_dt', )
+    
+    def __str__(self):
+        return '%s %d' %(self.donator.username, self.PICOIN)

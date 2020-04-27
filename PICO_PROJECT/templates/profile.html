@@ -7,7 +7,7 @@
 <div>
     picoin : {{ profile.PICOIN }}
     {% ifequal request.user.username profile.user.username %}
-    <a class="btn btn-outline-success my-2 my-sm-0" href="#">+</a>
+    <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'charge' %}">+</a>
     {% endifequal %}
 </div>
 <br>
