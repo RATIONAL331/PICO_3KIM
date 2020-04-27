@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import Profile, ProfilePicoInfoLog, PhotoicoInfoLog
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -26,3 +26,13 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+
+@admin.register(ProfilePicoInfoLog)
+class ProfilePicoInfoLogAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+
+
+@admin.register(PhotoicoInfoLog)
+class PhotoicoInfoLogAdmin(admin.ModelAdmin):
+    list_display = ('id',)

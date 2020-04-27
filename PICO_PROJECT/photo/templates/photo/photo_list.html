@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load sorl_thumbnail %}
-{% block title %}album_detail.html{% endblock %}
+{% block title %}photo_list.html{% endblock %}
 {% block extra-style %}
 <style>
     .tumbnail{
@@ -9,13 +9,9 @@
 </style>
 {% endblock %}
 {% block content %}
-    <div class="mt-5">
-        <span class="h2">{{ object.name }}&emsp;</span>
-        <span class="font-italic h5">{{ object.description }}</span>
-    </div>
     <hr style="margin: 0 0 20px 0;">
     <div class="row">
-        {% for photo in object.photo_set.all %}
+        {% for photo in object_list|slice:":5" %}
         <div class="col-md-3 mb-5">
             <div class="tumbnail">
                 <a href="{{ photo.get_absolute_url }}">

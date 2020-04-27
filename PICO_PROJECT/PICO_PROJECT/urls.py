@@ -32,7 +32,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('bookmark/', include('bookmark.urls')),
     path('blog/', include('blog.urls')),
-    path('photo/', include('photo.urls')),
+    path('explore/', include('photo.urls')),
     path('<str:username>/', ProfileView.as_view(), name='profile'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
