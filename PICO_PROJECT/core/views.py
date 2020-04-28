@@ -9,6 +9,8 @@ from .models import Profile, ProfilePicoInfoLog
 from photo.models import Photo
 from .forms import ChargeForm
 
+from django.db import transaction
+
 class ProfileView(TemplateView):
     template_name = 'profile.html'
 
@@ -31,6 +33,7 @@ class ChargeView(LoginRequiredMixin, TemplateView):
         form = ChargeForm()
         return render(request, 'charge.html', {'form':form, 'user':request.user})
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         form = ChargeForm(request.POST)
         if form.is_valid():
@@ -44,7 +47,7 @@ class ChargeView(LoginRequiredMixin, TemplateView):
             request.user.profile.PICOIN += form.cleaned_data['PICOIN']
             request.user.save()
             return redirect('profile', request.user.username)
-
+            
 class MyPicoLog(LoginRequiredMixin, TemplateView):
     template_name = 'mypicolog.html'
 
