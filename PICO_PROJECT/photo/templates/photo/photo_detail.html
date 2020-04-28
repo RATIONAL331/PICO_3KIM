@@ -17,6 +17,8 @@
         {% endif %}
         <li class="h5">Date Uploaded</li>
         <p class="font-italic">{{ object.upload_dt }}</p>
+        <li class="h5">PICOIN</li>
+        <p class="font-italic">{{ object.PICOIN }}</p>
     </ul>
 </div>
 {% ifnotequal request.user.username object.owner.username %}
