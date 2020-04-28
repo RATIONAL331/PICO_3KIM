@@ -25,10 +25,10 @@ def save_user_profile(sender, instance, **kwargs):
 
 class ProfilePicoInfoLog(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='PROFILE')
-    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='DONATOR')
+    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='DONATOR', null=True)
     PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
     where = models.ForeignKey(Photo, on_delete=models.PROTECT, verbose_name='WHERE', null=True)
-    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True)
+    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True, null=True)
 
     class Meta:
         ordering = ('-donate_dt', )
@@ -38,9 +38,9 @@ class ProfilePicoInfoLog(models.Model):
 
 class PhotoicoInfoLog(models.Model):
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, verbose_name='PHOTO')
-    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    donator = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='DONATOR', null=True)
     PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
-    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True)
+    donate_dt = models.DateTimeField('Donation Datetime', auto_now_add=True, null=True)
 
     class Meta:
         ordering = ('-donate_dt', )
