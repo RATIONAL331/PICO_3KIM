@@ -1,15 +1,14 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import Photo
-
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, Http404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
 from core.forms import DonateForm
-from core.models import PhotoicoInfoLog
+from core.models import PhotoicoInfoLog, ProfilePicoInfoLog
 # Create your views here.
 
 class PhotoLV(ListView):
@@ -47,27 +46,66 @@ class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
     model = Photo
     template_name = 'photo/photo_donate.html'
 
-    def get(self, request, *args, **kwargs):
-        form = DonateForm()
-        return render(request, 'charge.html', {'form':form, 'user':request.user})
+    def get_context_data(self, **kwargs):
+        context = super(PhotoDonateDetailView, self).get_context_data(**kwargs)
+        context['form'] = DonateForm()
+        return context
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         form = DonateForm(request.POST)
         if form.is_valid():
+            self.object = self.get_object()
             donating = PhotoicoInfoLog()
-            # donating.profile = 
             donating.donator = request.user
             donating.PICOIN = form.cleaned_data['PICOIN']
-            # donating.where = 
+            donating.photo = self.object
             donating.save()
 
             request.user.profile.PICOIN -= form.cleaned_data['PICOIN']
             request.user.save()
 
             # 후원받는 사람 PICOIN늘리기
+            self.object.owner.profile.PICOIN += form.cleaned_data['PICOIN']
+            self.object.owner.save()
+
+            # 후원 받은 사람 LOGGING
+            charging = ProfilePicoInfoLog()
+            charging.profile = self.object.owner.profile
+            charging.donator = request.user
+            charging.PICOIN = form.cleaned_data['PICOIN']
+            charging.where = self.object
+            charging.save()
+
+            # 후원 한 사람 LOGGING
+            charging = ProfilePicoInfoLog()
+            charging.profile = request.user.profile
+            charging.donator = self.object.owner
+            charging.PICOIN = -form.cleaned_data['PICOIN']
+            charging.where = self.object
+            charging.save()
 
             # 사진 PICOIN늘리기
+            self.object.PICOIN += form.cleaned_data['PICOIN']
+            self.object.save()
 
-            return redirect('profile', request.user.username)
-    
+            return redirect('photo:photo_detail', self.object.id)
+        else:
+            self.object = self.get_object()
+            context = super(PhotoDonateDetailView, self).get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context=context)
+
+class PhotoPicoLog(LoginRequiredMixin, TemplateView):
+    template_name = 'photo_donate_list.html'
+
+    def get(self, request, pk):
+        photo = None
+        try:
+            photo = Photo.objects.get(pk=pk)
+        except:
+            raise Http404()
+        
+        logging = PhotoicoInfoLog.objects.filter(pk=pk,)
+
+        return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})
