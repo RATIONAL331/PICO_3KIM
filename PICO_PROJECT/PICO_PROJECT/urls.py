@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from . import views
-from core.views import ProfileView, ChargeView
+from core.views import ProfileView, ChargeView, MyPicoLog
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,8 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('explore/', include('photo.urls')),
     path('charge/', ChargeView.as_view(), name='charge'),
+    path('log/user/<str:username>', MyPicoLog.as_view(), name='mypicolog'),
+    # path('log/photo/<int:pk>', name='photopicolog'),
     path('<str:username>/', ProfileView.as_view(), name='profile'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
