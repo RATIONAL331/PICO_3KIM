@@ -12,8 +12,7 @@
         <li>
             <form action="" method="POST">
                 {% csrf_token %}
-                <input type="number" name="" id="">
-                <input type="submit" value="Donate">
+                {{ form.as_table }}
             </form>
         </li>
         

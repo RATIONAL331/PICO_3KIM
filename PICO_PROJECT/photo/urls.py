@@ -12,5 +12,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.PhotoDelV.as_view(), name='photo_delete'),
 
     path('<int:pk>/donate', views.PhotoDonateDetailView.as_view(), name='photo_donate'),
+    path('<int:pk>/log', views. PhotoPicoLog.as_view(), name='photo_pico_log')
     
 ] 
