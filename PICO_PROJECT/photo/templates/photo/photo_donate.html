@@ -11,6 +11,7 @@
     <ul class="col-md-3 mt-3">
         <li>
             <form action="" method="POST">
+                {% csrf_token %}
                 <input type="number" name="" id="">
                 <input type="submit" value="Donate">
             </form>

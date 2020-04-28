@@ -6,8 +6,8 @@
 <div>
     You have PICOIN => {{ user.profile.PICOIN }}
     <form action="" method="POST">
-        <input type="number" name="" id="">
-        <input type="submit" value="Charge">
+        {% csrf_token %}
+        {{ form.as_table }}
     </form>
 </div>
 <br>
