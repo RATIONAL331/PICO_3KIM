@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load sorl_thumbnail %}
+{% block title %}album_detail.html{% endblock %}
+{% block extra-style %}
+<style>
+    .tumbnail{
+        border:5px solid #ccc;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="mt-5">
+        <span class="h2">{{ object.name }}&emsp;</span>
+        <span class="font-italic h5">{{ object.description }}</span>
+    </div>
+    <hr style="margin: 0 0 20px 0;">
+    <div class="row">
+        {% for photo in object.photo_set.all %}
+        <div class="col-md-3 mb-5">
+            <div class="tumbnail">
+                <a href="{{ photo.get_absolute_url }}">
+                    {% thumbnail photo.image "128x128" crop="center" as im %}
+                    <img src="{{ im.url }}" style="width: 100%;">
+                    {% endthumbnail %}
+                </a>
+            </div>
+            <ul>
+                <li class="font-italic">{{ photo.title }}</li>
+                <li class="font-italic">{{ photo.upload_dt|date:"Y-m-d" }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

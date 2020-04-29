@@ -37,6 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'widget_tweaks',
+    'sorl.thumbnail',
+
+    'disqus',
+    'django.contrib.sites',
+    
+    'bookmark.apps.BookmarkConfig',
+
+    'blog.apps.BlogConfig',
+    'taggit.apps.TaggitAppConfig',
+    'taggit_templatetags2',
+
+    'photo.apps.PhotoConfig',
+    
 ]
 
 MIDDLEWARE = [
@@ -125,3 +140,17 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50
+
+SITE_ID = 1
+DISQUS_WEBSITE_SHORTNAME = 'picosmu'
+
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = '3kimsmu@gmail.com'
+EMAIL_HOST_PASSWORD = '!3KimRBHyyy'
+EAMIL_PORT = 587

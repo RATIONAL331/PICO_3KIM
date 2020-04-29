@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load sorl_thumbnail %}
+{% block title %}album_list.html{% endblock %}
+{% block extra-style %}
+<style>
+    .tumbnail{
+        border:3px solid #ccc;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% for item in object_list %}
+    <div class="mt-5">
+        <a href="{% url 'photo:album_detail' item.id %}" class="h2">{{ item.name }}</a>&emsp;
+        <span class="font-italic h5">{{ item.description }} - {{ item.owner }}</span>
+    </div>
+    <hr style="margin: 0 0 20px 0;">
+    <div class="row">
+        {% for photo in item.photo_set.all|slice:":5" %}
+        <div class="ml-5">
+            <div class="tumbnail">
+                <a href="{{ photo.get_absolute_url }}">
+                    {% thumbnail photo.image "128x128" crop="center" as im %}
+                    <img src="{{ im.url }}" style="width: 100%;">
+                    {% endthumbnail %}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}
