@@ -6,4 +6,4 @@ class ChargeForm(forms.Form):
     PICOIN = forms.IntegerField(max_value=5000, min_value=1)
 
 class DonateForm(forms.Form):
-    PICOIN = forms.IntegerField(max_value=1000, min_value=1)
+    PICOIN = forms.IntegerField(max_value=2000, min_value=1)
