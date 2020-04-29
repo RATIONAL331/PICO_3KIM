@@ -10,6 +10,8 @@
     </div>
     <ul class="col-md-3 mt-3">
         <li>
+            You have {{ request.user.profile.PICOIN }}
+            <br>
             <form action="" method="POST">
                 {% csrf_token %}
                 {{ form.as_table }}

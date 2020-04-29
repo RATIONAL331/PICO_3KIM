@@ -3,7 +3,7 @@ from .models import Photo
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, Http404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
@@ -55,6 +55,9 @@ class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
     def post(self, request, *args, **kwargs):
         form = DonateForm(request.POST)
         if form.is_valid():
+            if(request.user.profile.PICOIN < form.cleaned_data['PICOIN']):
+                return redirect(reverse('charge'))
+
             self.object = self.get_object()
             donating = PhotoicoInfoLog()
             donating.donator = request.user
