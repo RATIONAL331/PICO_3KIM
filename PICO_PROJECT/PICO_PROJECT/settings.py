@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
+    'core.apps.CoreConfig',
 
     'photo.apps.PhotoConfig',
     
