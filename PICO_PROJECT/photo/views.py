@@ -1,27 +1,25 @@
-from django.views.generic import ListView, DetailView
-from .models import Album, Photo
-
+from django.views.generic import ListView, DetailView, TemplateView
+from .models import Photo
+from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, render, Http404
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
-from PICO_PROJECT.views import OwnerOnlyMixin
-from .forms import PhotoInlineFormSet
+from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
+
+from core.forms import DonateForm
+from core.models import PhotoicoInfoLog, ProfilePicoInfoLog
 # Create your views here.
 
-class AlbumLV(ListView):
-    model = Album
-
-class AlbumDV(DetailView):
-    model = Album
+class PhotoLV(ListView):
+    model = Photo
 
 class PhotoDV(DetailView):
     model = Photo
 
-
 class PhotoCV(LoginRequiredMixin, CreateView):
     model = Photo
-    fields = ('album', 'title', 'image', 'description')
+    fields = ('title', 'image', 'description')
     success_url = reverse_lazy('photo:index')
 
     def form_valid(self, form):
@@ -37,71 +35,80 @@ class PhotoChangeLV(LoginRequiredMixin, ListView):
 
 class PhotoUV(OwnerOnlyMixin, UpdateView):
     model = Photo
-    fields = ('album', 'title', 'image', 'description')
+    fields = ('title', 'image', 'description')
     success_url = reverse_lazy('photo:index')
 
 class PhotoDelV(OwnerOnlyMixin, DeleteView):
     model = Photo
     success_url = reverse_lazy('photo:index')
 
-class AlbumChangeLV(LoginRequiredMixin, ListView):
-    model = Album
-    template_name = 'photo/album_change_list.html'
-
-    def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user)
-
-class AlbumDelV(OwnerOnlyMixin, DeleteView):
-    model = Album
-    success_url = reverse_lazy('photo:index')
-
-class AlbumPhotoCV(LoginRequiredMixin, CreateView):
-    model = Album
-    fields = ('name', 'description')
-    success_url = reverse_lazy('photo:index')
+class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
+    model = Photo
+    template_name = 'photo/photo_donate.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = PhotoInlineFormSet(self.request.POST, self.request.FILES)
-        else:
-            context['formset'] = PhotoInlineFormSet()
-        return context
-    
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        context = self.get_context_data()
-        formset = context['formset']
-        for photoform in formset:
-            photoform.instance.owner = self.request.user
-        if formset.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
-
-class AlbumPhotoUV(OwnerOnlyMixin, UpdateView):
-    model = Album
-    fields = ('name', 'description')
-    success_url = reverse_lazy('photo:index')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = PhotoInlineFormSet(self.request.POST, self.request.FILES, instance=self.object)
-        else:
-            context['formset'] = PhotoInlineFormSet(instance=self.object)
+        context = super(PhotoDonateDetailView, self).get_context_data(**kwargs)
+        context['form'] = DonateForm()
         return context
 
-    def form_valid(self, form):
-        context = super().get_context_data()
-        formset = context['formset']
-        if formset.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        form = DonateForm(request.POST)
+        if form.is_valid():
+            if(request.user.profile.PICOIN < form.cleaned_data['PICOIN']):
+                return redirect(reverse('charge'))
+
+            self.object = self.get_object()
+            donating = PhotoicoInfoLog()
+            donating.donator = request.user
+            donating.PICOIN = form.cleaned_data['PICOIN']
+            donating.photo = self.object
+            donating.save()
+
+            request.user.profile.PICOIN -= form.cleaned_data['PICOIN']
+            request.user.save()
+
+            # 후원받는 사람 PICOIN늘리기
+            self.object.owner.profile.PICOIN += form.cleaned_data['PICOIN']
+            self.object.owner.save()
+
+            # 후원 받은 사람 LOGGING
+            charging = ProfilePicoInfoLog()
+            charging.profile = self.object.owner.profile
+            charging.donator = request.user
+            charging.PICOIN = form.cleaned_data['PICOIN']
+            charging.where = self.object
+            charging.save()
+
+            # 후원 한 사람 LOGGING
+            charging = ProfilePicoInfoLog()
+            charging.profile = request.user.profile
+            charging.donator = self.object.owner
+            charging.PICOIN = -form.cleaned_data['PICOIN']
+            charging.where = self.object
+            charging.save()
+
+            # 사진 PICOIN늘리기
+            self.object.PICOIN += form.cleaned_data['PICOIN']
+            self.object.save()
+
+            return redirect('photo:photo_detail', self.object.id)
         else:
-            return self.render_to_response(self.get_context_data(form=form))
+            self.object = self.get_object()
+            context = super(PhotoDonateDetailView, self).get_context_data(**kwargs)
+            context['form'] = form
+            return self.render_to_response(context=context)
+
+class PhotoPicoLog(LoginRequiredMixin, TemplateView):
+    template_name = 'photo_donate_list.html'
+
+    def get(self, request, pk):
+        photo = None
+        try:
+            photo = Photo.objects.get(pk=pk)
+        except:
+            raise Http404()
+        
+        logging = PhotoicoInfoLog.objects.filter(photo=photo)
+
+        return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})

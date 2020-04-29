@@ -18,6 +18,7 @@ from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 
+from django.contrib.auth.decorators import login_required
 
 class HomeView(TemplateView):
     template_name = 'home.html'
@@ -72,3 +73,18 @@ class OwnerOnlyMixin(AccessMixin):
         if request.user != obj.owner:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
+
+class OtherOnlyMixin(AccessMixin):
+    raise_exception = True
+    permission_denied_message = "Others only can donate the object"
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if request.user == obj.owner:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+    
+    @classmethod
+    def as_view(cls, **kwargs):
+        view = super(OtherOnlyMixin, cls).as_view(**kwargs)
+        return login_required(view)

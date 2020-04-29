@@ -7,7 +7,6 @@
 <table class="table table-bordered table-condensed table-striped">
     <thead>
         <tr class="table-primary">
-            <th>Album</th>
             <th>Title</th>
             <th>Description</th>
             <th>Owner</th>
@@ -18,7 +17,6 @@
     <tbody>
         {% for item in object_list %}
         <tr class="table-secondary">
-            <td>{{ item.album }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.description }}</td>
             <td>{{ item.owner }}</td>

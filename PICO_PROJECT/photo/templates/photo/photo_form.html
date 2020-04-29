@@ -17,11 +17,6 @@
 {% endif %}
     {% csrf_token %}
     <div class="form-group row">
-        {{ form.album|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
-        <div class="col-sm-2">{{ form.album|add_class:"form-control" }}</div>
-        <div class="col-sm-2 my-auto"><a href="{% url 'photo:album_add' %}" class="btn btn-outline-primary btn-sm">Add Album</a></div>
-    </div>
-    <div class="form-group row">
         {{ form.title|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
         <div class="col-sm-2">{{ form.title|add_class:"form-control"|attr:"autofocus" }}</div>
     </div>
