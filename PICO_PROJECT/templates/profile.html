@@ -5,8 +5,8 @@
 {% block content %}
 <h1>{{ profile.user.username }}</h1>
 <div>
-    picoin :  <a href="{% url 'mypicolog' user.get_username %}" class="btn btn-primary">{{ profile.PICOIN }}</a> 
     {% ifequal request.user.username profile.user.username %}
+    picoin :  <a href="{% url 'mypicolog' user.get_username %}" class="btn btn-primary">{{ profile.PICOIN }}</a> 
     <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'charge' %}">+</a>
     {% endifequal %}
 </div>
