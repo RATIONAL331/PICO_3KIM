@@ -99,7 +99,7 @@ class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
             context['form'] = form
             return self.render_to_response(context=context)
 
-class PhotoPicoLog(LoginRequiredMixin, TemplateView):
+class PhotoPicoLog(TemplateView):
     template_name = 'photo_donate_list.html'
 
     def get(self, request, pk):
