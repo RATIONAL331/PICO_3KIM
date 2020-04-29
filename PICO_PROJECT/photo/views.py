@@ -106,6 +106,6 @@ class PhotoPicoLog(LoginRequiredMixin, TemplateView):
         except:
             raise Http404()
         
-        logging = PhotoicoInfoLog.objects.filter(pk=pk,)
+        logging = PhotoicoInfoLog.objects.filter(photo=photo)
 
         return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})

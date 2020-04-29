@@ -16,7 +16,7 @@
     <tbody>
         {% for item in object_list %}
         <tr class="table-secondary">
-            <td>{{ item.donator }}</td>
+            <td><a href="{% url 'profile' item.donator.username %}">{{ item.donator }}</a></td>
             <td>{{ item.PICOIN }}</td>
             <td>{{ item.donate_dt }}</td>
         </tr>

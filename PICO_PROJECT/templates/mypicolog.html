@@ -17,10 +17,10 @@
     <tbody>
         {% for item in object_list %}
         <tr class="table-secondary">
-            <td>{{ item.donator }}</td>
+            <td><a href="{% url 'profile' item.donator.username %}">{{ item.donator }}</a></td>
             <td>{{ item.PICOIN }}</td>
             {% if item.where %}
-            <td>{{ item.where }}</td>
+            <td><a href="{% url 'photo:photo_detail' item.where.id %}">{{ item.where }}</a></td>
             {% else %}
             <td>충전</td>
             {% endif %}
