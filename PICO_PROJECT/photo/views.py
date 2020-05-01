@@ -5,10 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.db.models import Q
+
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
 from core.forms import DonateForm
 from core.models import PhotoicoInfoLog, ProfilePicoInfoLog
+
+
 # Create your views here.
 
 class PhotoLV(ListView):
@@ -112,3 +116,11 @@ class PhotoPicoLog(TemplateView):
         logging = PhotoicoInfoLog.objects.filter(photo=photo)
 
         return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})
+
+
+def post_search(request):
+    template_name = "photo/photo_search.html"
+    search_word = request.GET.get('search_word', '')
+    if search_word:
+        br = Photo.objects.filter(Q(title__icontains=search_word) | Q(description__icontains=search_word) | Q(owner__username__icontains=search_word)).distinct()
+    return render(request, template_name, {'photo_search' : br, 'search_word':search_word})

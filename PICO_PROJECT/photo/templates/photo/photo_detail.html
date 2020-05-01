@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load disqus_tags %}
 {% block title %}photo_detail.html{% endblock %}
 {% block content %}
 <h2 class="mt-5">{{ object.title }}</h2>
@@ -26,6 +27,10 @@
 {% ifnotequal request.user.username object.owner.username %}
 <div>
     <a href="{% url 'photo:photo_donate' object.id %}" class="btn btn-primary">donate</a>
+</div>
+<br>
+<div>      
+    {% disqus_show_comments %}
 </div>
 {% endifnotequal %}
 {% endblock %}
