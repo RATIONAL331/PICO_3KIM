@@ -23,7 +23,7 @@ class PhotoDV(DetailView):
 
 class PhotoCV(LoginRequiredMixin, CreateView):
     model = Photo
-    fields = ('title', 'image', 'description')
+    fields = ('title', 'image', 'description', 'tags')
     success_url = reverse_lazy('photo:index')
 
     def form_valid(self, form):
