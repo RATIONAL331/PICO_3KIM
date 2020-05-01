@@ -117,6 +117,17 @@ class PhotoPicoLog(TemplateView):
 
         return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})
 
+class TaggedObjectLV(ListView):
+    template_name = 'photo/taggit_photo_list.html'
+    model = Photo
+
+    def get_queryset(self):
+        return Photo.objects.filter(tags__name=self.kwargs.get('tag'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tagname'] = self.kwargs['tag']
+        return context
 
 def post_search(request):
     template_name = "photo/photo_search.html"

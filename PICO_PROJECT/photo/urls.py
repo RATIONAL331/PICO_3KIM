@@ -15,5 +15,5 @@ urlpatterns = [
     path('<int:pk>/log', views. PhotoPicoLog.as_view(), name='photo_pico_log'),
 
     path('search/', views.post_search, name='search'),
-
+    path('tag/<str:tag>/', views.TaggedObjectLV.as_view(), name='tagged_object_list'),
 ] 

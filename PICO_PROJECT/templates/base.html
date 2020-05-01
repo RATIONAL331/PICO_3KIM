@@ -26,12 +26,6 @@
             <a class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item btn btn-dark mx-1">
-            <a class="nav-link" href="{% url 'bookmark:index' %}">Bookmark<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item btn btn-dark mx-1">
-            <a class="nav-link" href="{% url 'blog:index' %}">Blog<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item btn btn-dark mx-1">
             <a class="nav-link" href="{% url 'photo:index' %}">Explore<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item dropdown btn btn-dark mx-1">
@@ -41,7 +35,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'blog:post_archive' %}">Archive</a>
+                <!-- <a class="dropdown-item" href="'blog:post_archive'">Archive</a> -->
               </div>
           </li>
 
@@ -50,9 +44,6 @@
                 Add
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'bookmark:add' %}">Bookmark</a>
-                <a class="dropdown-item" href="{% url 'blog:add' %}">Post</a>
-                <div class="dropdown-divider"></div>
                 <a href="{% url 'photo:photo_add' %}" class="dropdown-item">Photo</a>
               </div>
           </li>
@@ -62,9 +53,6 @@
                 Change
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'bookmark:change' %}">Bookmark</a>
-                <a class="dropdown-item" href="{% url 'blog:change' %}">Post</a>
-                <div class="dropdown-divider"></div>
                 <a href="{% url 'photo:photo_change' %}" class="dropdown-item">Photo</a>
               </div>
           </li>
