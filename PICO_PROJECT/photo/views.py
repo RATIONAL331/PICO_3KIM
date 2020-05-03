@@ -5,10 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.db.models import Q
+
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
 from core.forms import DonateForm
 from core.models import PhotoicoInfoLog, ProfilePicoInfoLog
+
+
 # Create your views here.
 
 class PhotoLV(ListView):
@@ -19,7 +23,7 @@ class PhotoDV(DetailView):
 
 class PhotoCV(LoginRequiredMixin, CreateView):
     model = Photo
-    fields = ('title', 'image', 'description')
+    fields = ('title', 'image', 'description', 'tags')
     success_url = reverse_lazy('photo:index')
 
     def form_valid(self, form):
@@ -99,7 +103,7 @@ class PhotoDonateDetailView(OtherOnlyMixin, DetailView):
             context['form'] = form
             return self.render_to_response(context=context)
 
-class PhotoPicoLog(LoginRequiredMixin, TemplateView):
+class PhotoPicoLog(TemplateView):
     template_name = 'photo_donate_list.html'
 
     def get(self, request, pk):
@@ -112,3 +116,22 @@ class PhotoPicoLog(LoginRequiredMixin, TemplateView):
         logging = PhotoicoInfoLog.objects.filter(photo=photo)
 
         return render(request, 'photo/photo_donate_list.html', {'object_list': logging, 'photo':photo})
+
+class TaggedObjectLV(ListView):
+    template_name = 'photo/taggit_photo_list.html'
+    model = Photo
+
+    def get_queryset(self):
+        return Photo.objects.filter(tags__name=self.kwargs.get('tag'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tagname'] = self.kwargs['tag']
+        return context
+
+def post_search(request):
+    template_name = "photo/photo_search.html"
+    search_word = request.GET.get('search_word', '')
+    if search_word:
+        br = Photo.objects.filter(Q(title__icontains=search_word) | Q(description__icontains=search_word) | Q(owner__username__icontains=search_word)).distinct()
+    return render(request, template_name, {'photo_search' : br, 'search_word':search_word})

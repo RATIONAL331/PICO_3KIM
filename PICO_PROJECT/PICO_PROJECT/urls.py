@@ -30,8 +30,6 @@ urlpatterns = [
     re_path(r'^accounts/register/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
 
     path('', views.HomeView.as_view(), name='home'),
-    path('bookmark/', include('bookmark.urls')),
-    path('blog/', include('blog.urls')),
     path('explore/', include('photo.urls')),
     path('charge/', ChargeView.as_view(), name='charge'),
     path('log/user/<str:username>', MyPicoLog.as_view(), name='mypicolog'),

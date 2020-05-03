@@ -28,6 +28,11 @@
         {{ form.description|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
         <div class="col-sm-2">{{ form.description|add_class:"form-control"|attr:"rows:3" }}</div>
     </div>
+    <div class="form-group row">
+        {{ form.tags|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+        <div class="col-sm-5">{{ form.tags|add_class:"form-control" }}</div>
+        <small class="form-text text-muted">{{ form.tags.help_text }}</small>
+    </div>
     <div class="form-group">
         <div class="offset-sm-2 col-sm-5"><input type="submit" value="Submit" class="btn btn-info"></div>
     </div>
