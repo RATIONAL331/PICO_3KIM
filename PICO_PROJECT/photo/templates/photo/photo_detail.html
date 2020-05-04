@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load disqus_tags %}
 {% block title %}photo_detail.html{% endblock %}
 {% block content %}
 <h2 class="mt-5">{{ object.title }}</h2>
@@ -17,10 +18,31 @@
         {% endif %}
         <li class="h5">Date Uploaded</li>
         <p class="font-italic">{{ object.upload_dt }}</p>
-        <li class="h5">Album Name</li>
-        <p class="font-italic">
-            <a href="{% url 'photo:album_detail' object.album.id %}">{{ object.album.name }}</a>
-        </p>
+        <li class="h5">Owner</li>
+        <p class="font-italic">{{ object.owner.username }}</p>
+        <li class="h5">PICOIN</li>
+        <p class="font-italic"><a href="{% url 'photo:photo_pico_log' object.id %}" class="btn btn-primary">{{ object.PICOIN }}</a></p>
+        <li>
+            <div>
+                <b>TAGS</b><i class="fas fa-tag"></i>
+                {% load taggit_templatetags2_tags %}
+                {% get_tags_for_object object as "tags" %}
+                {% for tag in tags %}
+                <a href="{% url 'photo:tagged_object_list' tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+                &emsp;
+            </div>
+        
+        </li>    
     </ul>
 </div>
+{% ifnotequal request.user.username object.owner.username %}
+<div>
+    <a href="{% url 'photo:photo_donate' object.id %}" class="btn btn-primary">donate</a>
+</div>
+<br>
+<div>      
+    {% disqus_show_comments %}
+</div>
+{% endifnotequal %}
 {% endblock %}

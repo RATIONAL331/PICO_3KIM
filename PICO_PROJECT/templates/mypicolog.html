@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}picolog_list.html{% endblock %}
+{% block content %}
+<h1>PICO - LOG [{{ request.user.username }}]</h1>
+
+<br>
+<table class="table table-bordered table-condensed table-striped">
+    <thead>
+        <tr class="table-primary">
+            <th>누가</th>
+            <th>얼마나</th>
+            <th>어떻게</th>
+            <th>언제</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in object_list %}
+        <tr class="table-secondary">
+            <td><a href="{% url 'profile' item.donator.username %}">{{ item.donator }}</a></td>
+            <td>{{ item.PICOIN }}</td>
+            {% if item.where %}
+            <td><a href="{% url 'photo:photo_detail' item.where.id %}">{{ item.where }}</a></td>
+            {% else %}
+            <td>충전</td>
+            {% endif %}
+            <td>{{ item.donate_dt }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

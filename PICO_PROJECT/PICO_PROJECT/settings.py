@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
+import os, json, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,13 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q5csw_%(n)@#pf24yh25@ba03ub@il^l8x%!=&qxk0j*0j7*2^'
+SECRETS_PATH = os.path.join(BASE_DIR, 'secrets.json')
+SECRETS = json.loads(open(SECRETS_PATH).read())
+
+for key, val in SECRETS.items():
+    print("SET ATTR %s %s" %(key, val))
+    setattr(sys.modules[__name__], key, val)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
+    'core.apps.CoreConfig',
 
     'photo.apps.PhotoConfig',
     
@@ -150,7 +155,6 @@ DISQUS_WEBSITE_SHORTNAME = 'picosmu'
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = '3kimsmu@gmail.com'
-EMAIL_HOST_PASSWORD = '!3KimRBHyyy'
-EAMIL_PORT = 587
+
+SESSION_COOKIE_AGE = 60 * 10 # 10minute
+SESSION_SAVE_EVERY_REQUEST = True
