@@ -63,7 +63,7 @@ def activate(request, uidb64, token):
         return render(request, 'registration/registration_done.html')
     else:
         return Http404('Activation link is invalid!')
-    
+
 class OwnerOnlyMixin(AccessMixin):
     raise_exception = True
     permission_denied_message = "Owner only can update/delete the object"
