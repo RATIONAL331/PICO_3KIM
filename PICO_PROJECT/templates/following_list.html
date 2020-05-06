@@ -5,8 +5,7 @@
 {% block content %}
 <h1>{{ profile.user.username }}</h1>
 <div>
-    FOLLOWER : {{ profile.followers.all }}
-    FOLLOWING: {{ profile.following.all }}
+    {{ profile.followers.all }}
     {% ifnotequal request.user profile.user %}
         {% if request.user in profile.followers.all %}
         <a href="{% url 'follow' profile.user.username %}">UnFollow</a>
@@ -17,7 +16,7 @@
 </div>
 <div>
     <strong> Followers: </strong> {{ profile.followers.count }}
-    <strong> Followings: </strong> {{ profile.following.count }}
+    <strong> Followings: </strong> {{ profile.followings.count }}
 </div>
 <div>
     {% ifequal request.user.username profile.user.username %}

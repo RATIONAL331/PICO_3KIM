@@ -4,6 +4,7 @@ from . import views
 app_name = 'photo'
 urlpatterns = [
     path('', views.PhotoLV.as_view(), name='index'),
+    path('follow/', views.PhotoFollowView.as_view(), name='follow'),
     path('<int:pk>/', views.PhotoDV.as_view(), name='photo_detail'),
 
     path('add/', views.PhotoCV.as_view(), name='photo_add'),

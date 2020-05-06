@@ -65,3 +65,25 @@ class MyPicoLog(LoginRequiredMixin, TemplateView):
         logging = ProfilePicoInfoLog.objects.filter(profile=profile,)
 
         return render(request, 'mypicolog.html', {'object_list': logging})
+
+def follow(request, username):
+    if username == request.user.username:
+        return redirect('profile', username)
+
+    user = None
+    try:
+        user = User.objects.get(username=username)
+    except:
+        raise Http404()
+
+    profile = user.profile
+    
+    if request.user in profile.followers.all():
+        profile.followers.remove(request.user)
+        request.user.profile.following.remove(user)
+    else:
+        profile.followers.add(request.user)
+        request.user.profile.following.add(user)
+
+    return redirect('profile', username)
+    
