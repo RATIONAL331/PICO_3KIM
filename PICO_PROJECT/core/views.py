@@ -80,11 +80,10 @@ def follow(request, username):
     
     if request.user in profile.followers.all():
         profile.followers.remove(request.user)
+        request.user.profile.following.remove(user)
     else:
         profile.followers.add(request.user)
-    
-    # following 개념도 도입해야함
-    
+        request.user.profile.following.add(user)
 
     return redirect('profile', username)
     

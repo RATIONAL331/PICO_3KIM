@@ -9,6 +9,7 @@ from photo.models import Photo
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     followers = models.ManyToManyField(User, related_name='user_followers')
+    following = models.ManyToManyField(User, related_name='user_following')
     PICOIN = models.PositiveIntegerField(default=0, verbose_name='PICOIN')
 
     def __str__(self):

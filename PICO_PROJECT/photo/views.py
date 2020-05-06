@@ -12,11 +12,20 @@ from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 from core.forms import DonateForm
 from core.models import PhotoicoInfoLog, ProfilePicoInfoLog
 
+from itertools import chain
 
 # Create your views here.
 
 class PhotoLV(ListView):
     model = Photo
+
+class PhotoFollowView(LoginRequiredMixin, ListView):
+    model = Photo
+    template_name = 'photo_follow_list.html'
+    def get_queryset(self):
+        following = self.request.user.profile.following.all()
+        following = chain(following, [self.request.user])
+        return Photo.objects.filter(owner__in=following).order_by('-upload_dt')
 
 class PhotoDV(DetailView):
     model = Photo
