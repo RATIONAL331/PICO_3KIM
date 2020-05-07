@@ -6,7 +6,6 @@ from django.shortcuts import redirect, render, Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.db.models import Q
-
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
 from core.forms import DonateForm
@@ -131,16 +130,9 @@ class TaggedObjectLV(ListView):
     model = Photo
 
     def get_queryset(self):
-        return Photo.objects.filter(tags__name=self.kwargs.get('tag'))
+        return Photo.objects.filter(Q(tags__name__icontains=self.kwargs.get('tag')))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tagname'] = self.kwargs['tag']
         return context
-
-def post_search(request):
-    template_name = "photo/photo_search.html"
-    search_word = request.GET.get('search_word', '')
-    if search_word:
-        br = Photo.objects.filter(Q(title__icontains=search_word) | Q(description__icontains=search_word) | Q(owner__username__icontains=search_word)).distinct()
-    return render(request, template_name, {'photo_search' : br, 'search_word':search_word})

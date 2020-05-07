@@ -20,6 +20,9 @@ from django.core.mail import EmailMessage
 
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Q
+from photo.models import Photo
+
 class HomeView(TemplateView):
     template_name = 'home.html'
 
@@ -88,3 +91,39 @@ class OtherOnlyMixin(AccessMixin):
     def as_view(cls, **kwargs):
         view = super(OtherOnlyMixin, cls).as_view(**kwargs)
         return login_required(view)
+
+def post_search(request):
+    template_name = "search.html"
+    search_word = request.GET.get('search_word', '')
+    
+
+    if search_word:
+        search_words = search_word.split()
+        for allWord in search_word:
+            allWord.strip()
+            for char in allWord:
+                if char in "?.!/;:":
+                    allWord.replace(char, '')
+
+        search_words.sort()
+        # 찾는 검색어가 하나일 때 # 으로 시작하면 태그검색, @로 시작하면 유저 검색 그마저도 아니면 사진검색
+        if len(search_words) == 1:
+            if(search_words[0][0] == '#'):
+                tag = search_words[0][1:]
+                return redirect('photo:tagged_object_list', tag)
+            elif(search_words[0][0] == '@'):
+                # @를 입력하고 아무것도 입력안하면
+                if(len(search_words[0]) == 1):
+                    finduser = User.objects.none()
+                    return render(request, template_name, {'search': finduser, 'search_word':search_words[0]})
+                user = search_words[0][1:]
+                finduser = User.objects.filter(Q(username__icontains=user))
+                return render(request, template_name, {'search': finduser, 'search_word':search_words[0]})
+            else:
+                br = Photo.objects.filter(Q(title__icontains=search_word) | Q(description__icontains=search_word) | Q(owner__username__icontains=search_word)).distinct()
+                return render(request, template_name, {'search' : br, 'search_word':search_words[0]})
+        # 찾는 검색어가 여러개일 때 공통적으로 사진검색이며 #으로 시작하는 태그와 @로 시작하는 유저인 것을 모두 확인해야함
+        else:
+            pass
+        
+    

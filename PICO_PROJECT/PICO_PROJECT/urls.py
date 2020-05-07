@@ -33,6 +33,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('explore/', include('photo.urls')),
     path('charge/', ChargeView.as_view(), name='charge'),
+    path('search/', views.post_search, name='search'),
     path('log/user/<str:username>', MyPicoLog.as_view(), name='mypicolog'),
     # path('log/photo/<int:pk>', name='photopicolog'),
     path('<str:username>/', ProfileView.as_view(), name='profile'),
