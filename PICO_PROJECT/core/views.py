@@ -90,5 +90,27 @@ def follow(request, username):
 class FollowersView(TemplateView):
     template_name = 'profile_followers.html'
 
+    def get(self, request, username):
+        user = None
+        try:
+            user = User.objects.get(username=username)
+        except:
+            raise Http404()
+
+        followers = user.profile.followers.all()
+
+        return render(request, 'profile_followers.html', {'user':user, 'followers_list': followers})
+
 class FollowingView(TemplateView):
     template_name = 'profile_following.html'
+
+    def get(self, request, username):
+        user = None
+        try:
+            user = User.objects.get(username=username)
+        except:
+            raise Http404()
+
+        following = user.profile.following.all()
+
+        return render(request, 'profile_following.html', {'user':user, 'following_list': following})
