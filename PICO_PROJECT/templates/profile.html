@@ -9,15 +9,15 @@
     FOLLOWING: {{ profile.following.all }}
     {% ifnotequal request.user profile.user %}
         {% if request.user in profile.followers.all %}
-        <a href="{% url 'follow' profile.user.username %}">UnFollow</a>
+        <a href="{% url 'follow' profile.user.username %}" class="btn btn-danger">UnFollow</a>
         {% else %}
-        <a href="{% url 'follow' profile.user.username %}">Follow</a>
+        <a href="{% url 'follow' profile.user.username %}" class="btn btn-primary">Follow</a>
         {% endif %}
     {% endifnotequal %}
 </div>
 <div>
-    <strong> Followers: </strong> {{ profile.followers.count }}
-    <strong> Followings: </strong> {{ profile.following.count }}
+    <strong> Followers: </strong> <a href="{% url 'followers' profile.user.username %}">{{ profile.followers.count }}</a>
+    <strong> Following: </strong> <a href="{% url 'following' profile.user.username %}">{{ profile.following.count }}</a>
 </div>
 <div>
     {% ifequal request.user.username profile.user.username %}

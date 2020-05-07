@@ -87,3 +87,8 @@ def follow(request, username):
 
     return redirect('profile', username)
     
+class FollowersView(TemplateView):
+    template_name = 'profile_followers.html'
+
+class FollowingView(TemplateView):
+    template_name = 'profile_following.html'
