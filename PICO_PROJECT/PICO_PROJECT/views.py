@@ -21,6 +21,7 @@ from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
+from itertools import chain
 from photo.models import Photo
 
 class HomeView(TemplateView):
@@ -104,6 +105,8 @@ def post_search(request):
             for char in allWord:
                 if char in "?.!/;:":
                     allWord.replace(char, '')
+                elif char in ",":
+                    allWord.replace(char, ' ')
 
         search_words.sort()
         # 찾는 검색어가 하나일 때 # 으로 시작하면 태그검색, @로 시작하면 유저 검색 그마저도 아니면 사진검색
@@ -124,6 +127,17 @@ def post_search(request):
                 return render(request, template_name, {'search' : br, 'search_word':search_words[0]})
         # 찾는 검색어가 여러개일 때 공통적으로 사진검색이며 #으로 시작하는 태그와 @로 시작하는 유저인 것을 모두 확인해야함
         else:
-            pass
-        
-    
+            br = Photo.objects.all()
+            for word in search_words:
+                if word[0] == '#':
+                    if len(word) == 1:
+                        continue
+                    br = br.objects.filter(Q(tags__name__icontains=word[1:]))
+                elif word[0] == '@':
+                    if len(word) == 1:
+                        continue
+                    br = br.objects.filter(Q(owner__username__icontains=word[1:]))
+                else:
+                    br = br.objects.filter(Q(title__icontains=word) | Q(description__icontains=word) | Q(owner__username__icontains=word))
+
+                return render(request, template_name, {'search' : br})
