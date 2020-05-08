@@ -95,20 +95,17 @@ class OtherOnlyMixin(AccessMixin):
 
 def post_search(request):
     template_name = "search.html"
-    search_word = request.GET.get('search_word', '')
+    search_word = request.GET.get('search_word')
     
 
     if search_word:
         search_words = search_word.split()
-        for allWord in search_word:
-            allWord.strip()
-            for char in allWord:
+        for word in search_words:
+            word.strip()
+            for char in word:
                 if char in "?.!/;:":
-                    allWord.replace(char, '')
-                elif char in ",":
-                    allWord.replace(char, ' ')
+                    word.replace(char, '')
 
-        search_words.sort()
         # 찾는 검색어가 하나일 때 # 으로 시작하면 태그검색, @로 시작하면 유저 검색 그마저도 아니면 사진검색
         if len(search_words) == 1:
             if(search_words[0][0] == '#'):
@@ -132,12 +129,12 @@ def post_search(request):
                 if word[0] == '#':
                     if len(word) == 1:
                         continue
-                    br = br.objects.filter(Q(tags__name__icontains=word[1:]))
+                    br = br.filter(Q(tags__name__icontains=word[1:]))
                 elif word[0] == '@':
                     if len(word) == 1:
                         continue
-                    br = br.objects.filter(Q(owner__username__icontains=word[1:]))
+                    br = br.filter(Q(owner__username__icontains=word[1:]))
                 else:
-                    br = br.objects.filter(Q(title__icontains=word) | Q(description__icontains=word) | Q(owner__username__icontains=word))
+                    br = br.filter(Q(title__icontains=word) | Q(description__icontains=word) | Q(owner__username__icontains=word))
 
-                return render(request, template_name, {'search' : br})
+            return render(request, template_name, {'search' : br, 'search_words':search_word})
