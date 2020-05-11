@@ -1,11 +1,13 @@
 from django.views.generic import ListView, DetailView, TemplateView
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from .models import Photo
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, Http404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView
-from django.db.models import Q
+from django.db.models import Q, Sum
 from PICO_PROJECT.views import OwnerOnlyMixin, OtherOnlyMixin
 
 from core.forms import DonateForm
@@ -28,6 +30,97 @@ from itertools import chain
 
 class PhotoLV(ListView):
     model = Photo
+    template_name = 'photo/photo_list_rank.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # 도네이션 된지 하루인 것 가져오기 
+        infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(days=1))
+
+        # photo로 그룹을 묶어준다. 그 후, PICOIN을 SUM해준다.
+        infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
+        
+        photo_list = Photo.objects.filter(id__in=infolog.values_list('photo'))
+        photo_list = list(zip(photo_list, infolog))
+        
+        photo_list = sorted(photo_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['photo_list'] = photo_list
+
+        return context
+
+class PhotoLVRankWeek(ListView):
+    model = Photo
+    template_name = 'photo/photo_list_rank.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(weeks=1))
+        infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
+        
+        photo_list = Photo.objects.filter(id__in=infolog.values_list('photo'))
+        photo_list = list(zip(photo_list, infolog))
+        photo_list = sorted(photo_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['photo_list'] = photo_list
+
+        return context
+
+class PhotoLVRankMonth(ListView):
+    model = Photo
+    template_name = 'photo/photo_list_rank.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(months=1))
+        infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
+        
+        photo_list = Photo.objects.filter(id__in=infolog.values_list('photo'))
+        photo_list = list(zip(photo_list, infolog))
+        
+        photo_list = sorted(photo_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['photo_list'] = photo_list
+
+        return context
+
+class PhotoLVRank3Month(ListView):
+    model = Photo
+    template_name = 'photo/photo_list_rank.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(months=3))
+        infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
+        
+        photo_list = Photo.objects.filter(id__in=infolog.values_list('photo'))
+        photo_list = list(zip(photo_list, infolog))
+        
+        photo_list = sorted(photo_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['photo_list'] = photo_list
+
+        return context
+
+class PhotoLVRankYear(ListView):
+    model = Photo
+    template_name = 'photo/photo_list_rank.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(years=1))
+        infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
+        
+        photo_list = Photo.objects.filter(id__in=infolog.values_list('photo'))
+        photo_list = list(zip(photo_list, infolog))
+        
+        photo_list = sorted(photo_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['photo_list'] = photo_list
+
+        return context
+
+class PhotoLVRankAll(ListView):
+    model = Photo
+
+    def get_queryset(self):
+        return Photo.objects.all().order_by('-PICOIN')
 
 class PhotoFollowView(LoginRequiredMixin, ListView):
     model = Photo

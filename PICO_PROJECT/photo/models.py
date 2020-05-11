@@ -15,9 +15,6 @@ class Photo(models.Model):
     upload_dt = models.DateTimeField('Upload Date', auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='OWNER', blank=True, null=True)
 
-    class Meta:
-        ordering = ('-upload_dt', )
-    
     def __str__(self):
         return self.title
 
