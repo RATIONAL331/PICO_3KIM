@@ -15,6 +15,17 @@ from itertools import chain
 
 # Create your views here.
 
+# 랭크를 도입할때에는 사진에 붙은 로그를 참조해야합니다.
+# 사진에 붙은 로그에서 후원된 날짜를 기준으로 하루, 주, 월, 3개월, 년을 체크해야합니다.
+# 확인한 후, 포함이 되면 그 금액을 모두 더합니다.
+# 더한 금액을 기준으로 하여 정렬을 해야합니다. 만약에 값이 같으면 먼저 업로드된 기준으로 정렬합니다.
+# Entry.objects.filter(pub_date__lte='2006-01-01') => 2006년 1월 1일보다 작은 것을 찾는다. gt(e) 는 큰 것을 찾는다.
+# Blog.objects.annotate(Count('entry')) annotate를 사용하면 집계가능
+# Foo.objects.filter(datefield__date=datetime.date.today())
+# Sample.objects.filter(date__range=["2011-01-01", "2011-01-31"])
+# from datetime import datetime, timedelta
+# Entry.objects.filter(pub_date__gte = datetime.now() - timedelta(days=1)) 
+
 class PhotoLV(ListView):
     model = Photo
 
