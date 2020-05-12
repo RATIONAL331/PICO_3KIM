@@ -6,6 +6,7 @@ urlpatterns = [
     # 기본 explore은 day의 rank와 같다.
     path('', views.PhotoLV.as_view(), name='index'),
 
+    path('day', views.PhotoLVRankDay.as_view(), name='rank_day'),
     path('week/', views.PhotoLVRankWeek.as_view(), name='rank_week'),
     path('month/', views.PhotoLVRankMonth.as_view(), name='rank_month'),
     path('3month/', views.PhotoLVRank3Month.as_view(), name='rank_3month'),

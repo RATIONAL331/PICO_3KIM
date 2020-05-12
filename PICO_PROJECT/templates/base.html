@@ -25,8 +25,20 @@
           <li class="nav-item btn btn-dark mx-1">
             <a class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item btn btn-dark mx-1">
-            <a class="nav-link" href="{% url 'photo:index' %}">Explore<span class="sr-only">(current)</span></a>
+          <li class="nav-item dropdown btn btn-dark mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Explore
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'photo:index' %}">New</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'photo:rank_day' %}">Day</a>
+                <a class="dropdown-item" href="{% url 'photo:rank_week' %}">Week</a>
+                <a class="dropdown-item" href="{% url 'photo:rank_month' %}">Month</a>
+                <a class="dropdown-item" href="{% url 'photo:rank_3month' %}">3Month</a>
+                <a class="dropdown-item" href="{% url 'photo:rank_year' %}">Year</a>
+                <a class="dropdown-item" href="{% url 'photo:rank_all' %}">All</a>
+              </div>
           </li>
           <li class="nav-item btn btn-dark mx-1">
             <a class="nav-link" href="{% url 'photo:follow' %}">Following<span class="sr-only">(current)</span></a>

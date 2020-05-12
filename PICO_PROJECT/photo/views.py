@@ -30,6 +30,12 @@ from itertools import chain
 
 class PhotoLV(ListView):
     model = Photo
+
+    def get_queryset(self):
+        return Photo.objects.all().order_by('-upload_dt')
+
+class PhotoLVRankDay(ListView):
+    model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
