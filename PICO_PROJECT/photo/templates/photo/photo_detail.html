@@ -22,6 +22,19 @@
         <p class="font-italic">{{ object.owner.username }}</p>
         <li class="h5">PICOIN</li>
         <p class="font-italic"><a href="{% url 'photo:photo_pico_log' object.id %}" class="btn btn-primary">{{ object.PICOIN }}</a></p>
+        {% if donate_user_list %}
+        <li class="h5">RANK</li>
+        <table>
+            <tbody>
+                {% for donate_user in donate_user_list %}
+                <tr>
+                    <td><a href="{% url 'profile' donate_user.0.username %}">{{ donate_user.0.username }}</a></td>
+                    <td>{{ donate_user.1.total_PICO }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}   
         <li>
             <div>
                 <b>TAGS</b><i class="fas fa-tag"></i>

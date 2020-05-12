@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView, TemplateView
+from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from .models import Photo
@@ -38,7 +39,7 @@ class PhotoLVRankDay(ListView):
     model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PhotoLVRankDay, self).get_context_data(**kwargs)
         
         # 도네이션 된지 하루인 것 가져오기 
         infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(days=1))
@@ -59,7 +60,7 @@ class PhotoLVRankWeek(ListView):
     model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PhotoLVRankWeek, self).get_context_data(**kwargs)
         infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(weeks=1))
         infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
         
@@ -75,7 +76,7 @@ class PhotoLVRankMonth(ListView):
     model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PhotoLVRankMonth, self).get_context_data(**kwargs)
         infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(months=1))
         infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
         
@@ -92,7 +93,7 @@ class PhotoLVRank3Month(ListView):
     model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PhotoLVRank3Month, self).get_context_data(**kwargs)
         infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(months=3))
         infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
         
@@ -109,7 +110,7 @@ class PhotoLVRankYear(ListView):
     model = Photo
     template_name = 'photo/photo_list_rank.html'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = super(PhotoLVRankYear, self).get_context_data(**kwargs)
         infolog = PhotoicoInfoLog.objects.filter(donate_dt__gte=datetime.now()-relativedelta(years=1))
         infolog = infolog.values('photo').annotate(total_PICO=Sum('PICOIN')).order_by('photo__id')
         
@@ -138,6 +139,22 @@ class PhotoFollowView(LoginRequiredMixin, ListView):
 
 class PhotoDV(DetailView):
     model = Photo
+
+    def get_context_data(self, **kwargs):
+        context = super(PhotoDV, self).get_context_data(**kwargs)
+        
+        piclog = PhotoicoInfoLog.objects.filter(photo=self.kwargs.get('pk'))
+        piclog = piclog.values('donator').annotate(total_PICO=Sum('PICOIN')).order_by('donator')
+        piclog = piclog.order_by('-total_PICO')[:5]
+
+        user_list = User.objects.filter(id__in=piclog.values_list('donator'))
+        user_list = zip(user_list, piclog)
+
+        user_list = sorted(user_list, key=lambda x:x[1]['total_PICO'], reverse=True)
+
+        context['donate_user_list'] = user_list
+        
+        return context
 
 class PhotoCV(LoginRequiredMixin, CreateView):
     model = Photo
