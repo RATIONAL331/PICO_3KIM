@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import Http404
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import Profile, ProfilePicoInfoLog
@@ -66,6 +67,7 @@ class MyPicoLog(LoginRequiredMixin, TemplateView):
 
         return render(request, 'mypicolog.html', {'object_list': logging})
 
+@login_required
 def follow(request, username):
     if username == request.user.username:
         return redirect('profile', username)
