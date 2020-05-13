@@ -3,41 +3,20 @@
 {% block title %}Home.html{% endblock %}
 {% block extra-style %}
 <style type="text/css">
-.home-image{
-  background-image: url("{% static 'img/firework.png' %}");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
-  height: 400px;
-  border-top: 10px solid #ccc;
-  border-bottom: 10px solid #ccc;
-  padding: 20px 0 0 20px;
-}
-.title{
-  color: gray;
-  font-weight: bold;
-}
+body { 
+  background: url("{% static 'img/firework.png' %}") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}		
 </style>
 {% endblock %}
 {% block content %}
-<div class="home-image">
-</div>
-<hr style="margin: 10px 0;">
-<div class="row text-center">
-  <div class="col-sm-6">
-    <h3>Bookmark App</h3>
-    <p>Bookmark is a Unifrom Resourece Identifier(URI) that is stored for later retrieval in any of various storage formats. You can store your own bookmarks by Bookmark application. It's also possible to update or delete your bookmarks.</p>
-  </div>
-  <div class="col-sm-6">
-    <h3>Blog App</h3>
-    <p>This application makes it possible to log daily events or write your own interests such as hobbies, tech, etc. Atypical blog combines text, digital images, and links to other blogs, web pages, and other media related to its topic.</p>
-  </div>
-</div>
-
+<h1 style="display:flex; align-items: center; justify-content: center;">Express Yourself!</h1>
 {% endblock %}
-
 {% block footer %}
-<footer class="fixed-bottom bg-info"> 
+<footer class="fixed-bottom bg-dark"> 
   <div class="text-white font-italic text-right mr-5">Copyright&copy;2020 powered by 3KIM</div>
 </footer>
 {% endblock %}
