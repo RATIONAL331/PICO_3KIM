@@ -1,18 +1,7 @@
+
+<!-- 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <title>{% block title %}Django Web Programming{% endblock %}</title>
-    {% block extra-style %}{% endblock %}
-    {% block extra-script %}{% endblock %}
-</head>
 <body style="padding-top:70px; color: #eee; background-color: #222; margin: auto; font-family: 'Lucida Grande', Verdana, Arial, sans-serif;">
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
       <span class="navbar-brand mx-5 mb-0 font-weight-bold">PICO PROJECT</span>
@@ -50,7 +39,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
                 <div class="dropdown-divider"></div>
-                <!-- <a class="dropdown-item" href="'blog:post_archive'">Archive</a> -->
+                
               </div>
           </li>
 
@@ -75,10 +64,6 @@
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="GET">
           {% csrf_token %}
-          <!--
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          -->
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_word" value="{{ search_word }}" required>
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -103,8 +88,76 @@
       </div>
     </nav>
     <div class="container">
-      {% block content %}{% endblock %}
+      
     </div>
     {% block footer %}{% endblock %}
   </body>
+</html> -->
+
+
+
+
+
+
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    <noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+    <title>{% block title %}{% endblock %}</title>
+    {% block extra-style %}{% endblock %}
+    {% block extra-script %}{% endblock %}
+  </head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+    <!-- Header -->
+      <header id="header">
+        <h1 id="logo"><a href="{% url 'home' %}">PICO</a></h1>
+        <nav id="nav">
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'photo:index' %}">Rank</a></li>
+            <li><a href="{% url 'photo:follow' %}">Following</a></li>       
+            {% if user.is_active %}
+              <li><a href="{% url 'profile' user.get_username %}"><i class="fas fa-user"></i>&ensp;{% firstof user.get_short_name user.get_username %}&ensp;</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}" class="button primary">Sign In</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+
+    <!-- Main -->
+      <div id="main" class="wrapper style1">
+        <div class="container">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+
+    <!-- Footer -->
+      <footer id="footer">
+        <ul class="icons">
+          <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+        <ul class="copyright">
+          <li>&copy; PICO_3KIM All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </footer>
+    </div>
+  <!-- Scripts -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/util.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+	</body>
 </html>
