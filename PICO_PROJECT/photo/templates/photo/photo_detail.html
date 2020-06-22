@@ -51,11 +51,11 @@
 </div>
 {% ifnotequal request.user.username object.owner.username %}
 <div>
-    <a href="{% url 'photo:photo_donate' object.id %}" class="btn btn-primary">donate</a>
+    <a href="{% url 'photo:photo_donate' object.id %}" class="button primary">donate</a>
 </div>
 <br>
+{% endifnotequal %}
 <div>      
     {% disqus_show_comments %}
 </div>
-{% endifnotequal %}
 {% endblock %}

@@ -519,6 +519,9 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="search"],
+	input[type="hidden"],
+	input[type="number"],
 	select,
 	textarea {
 		@include vendor('appearance', 'none');
@@ -570,6 +573,9 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
+	input[type="search"],
+	input[type="hidden"],
+	input[type="number"],
 	select {
 		height: _size(element-height);
 	}
@@ -579,7 +585,7 @@
 	}
 
 	input[type="checkbox"],
-	input[type="radio"], {
+	input[type="radio"] {
 		@include vendor('appearance', 'none');
 		display: block;
 		float: left;
@@ -1039,6 +1045,9 @@
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
+	input[type="search"],
+	input[type="hidden"],
+	input[type="number"],
 	.button {
 		@include vendor('appearance', 'none');
 		@include vendor('transition', ('background-color #{_duration(transition)} ease-in-out', 'color #{_duration(transition)} ease-in-out', 'box-shadow #{_duration(transition)} ease-in-out'));
@@ -1313,6 +1322,9 @@
 			input[type="text"],
 			input[type="password"],
 			input[type="email"],
+			input[type="search"],
+			input[type="hidden"],
+			input[type="number"],
 			select,
 			textarea {
 				&:focus {
