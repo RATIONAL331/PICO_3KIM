@@ -19,7 +19,7 @@
 			<li>
 				<form action="{% url 'search' %}" method="GET">
 				  {% csrf_token %}
-				  <input type="text" placeholder="Search" aria-label="Search" name="search_word" value="{{ search_word }}" required>
+				  <input type="search" placeholder="Search" aria-label="Search" name="search_word" value="{{ search_word }}" required>
 				</form>
 			</li> 
             <li><a href="{% url 'home' %}">Home</a></li>
