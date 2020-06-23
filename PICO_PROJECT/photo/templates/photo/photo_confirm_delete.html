@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Photo Delete</h1>
 <br>
-<form action="." method="POST" class="card pt-3" style="background-color: #222; color:#eee; border-color:#eee;">
+<form action="." method="POST">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}" ?</p>
     <input type="submit" value="Confirm" class="btn btn-danger btn-sm">

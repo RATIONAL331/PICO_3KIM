@@ -5,6 +5,12 @@
 <header class="major">
     <h2>{{ object.title }}</h2>
     <p>{{ object.owner.username }}</p>
+    {% ifequal request.user.username object.owner.username %}
+    <p><span>
+        <a href="{% url 'photo:photo_update' object.id %}" class="button">Update</a>
+        <a href="{% url 'photo:photo_delete' object.id %}" class="button">Delete</a>
+    </span></p>
+    {% endifequal %}
     {% ifnotequal request.user.username object.owner.username %}
     <p><a href="{% url 'photo:photo_donate' object.id %}" class="button primary">Donate</a></p>
     {% endifnotequal %}
