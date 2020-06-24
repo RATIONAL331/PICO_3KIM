@@ -48,9 +48,6 @@ INSTALLED_APPS = [
     'disqus',
     'django.contrib.sites',
     
-    'bookmark.apps.BookmarkConfig',
-
-    'blog.apps.BlogConfig',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
     'core.apps.CoreConfig',

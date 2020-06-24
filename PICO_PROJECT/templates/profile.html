@@ -3,44 +3,83 @@
 {% load widget_tweaks %}
 {% block title %}{{ profile.user.username }}{% endblock %}
 {% block content %}
-<h1>{{ profile.user.username }}</h1>
-<div>
-    {% ifnotequal request.user profile.user %}
-        {% if request.user in profile.followers.all %}
-        <a href="{% url 'follow' profile.user.username %}" class="btn btn-danger">UnFollow</a>
-        {% else %}
-        <a href="{% url 'follow' profile.user.username %}" class="btn btn-primary">Follow</a>
-        {% endif %}
-    {% endifnotequal %}
-</div>
-<div>
-    <strong> Followers: </strong> <a href="{% url 'followers' profile.user.username %}">{{ profile.followers.count }}</a>
-    <strong> Following: </strong> <a href="{% url 'following' profile.user.username %}">{{ profile.following.count }}</a>
-</div>
-<div>
+
+<header class="major">
+    <h2>{{ profile.user.username }}</h2>
+    <p>
+        <strong> Followers: </strong> <a href="{% url 'followers' profile.user.username %}">{{ profile.followers.count }}</a>&nbsp;
+        <strong> Following: </strong> <a href="{% url 'following' profile.user.username %}">{{ profile.following.count }}</a>
+    </p>
     {% ifequal request.user.username profile.user.username %}
-    picoin :  <a href="{% url 'mypicolog' user.get_username %}" class="btn btn-primary">{{ profile.PICOIN }}</a> 
-    <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'charge' %}">+</a>
+    <p>    
+        <strong>Picoin : <a href="{% url 'mypicolog' user.get_username %}">{{ profile.PICOIN }}</a></strong> 
+        <strong><a href="{% url 'charge' %}">+</a> </strong>      
+    </p>
     {% endifequal %}
-</div>
-<br>
-<div> 
-    <div class="row">
-        {% for photo in photos %}
-        <div class="col-md-3 mb-5">       
-            <div class="tumbnail">
-                <a href="{{ photo.get_absolute_url }}">
-                    {% thumbnail photo.image "128x128" crop="center" as im %}
-                    <img src="{{ im.url }}" style="width: 100%;">
-                    {% endthumbnail %}
-                </a>
-            </div>
-            <ul>
-                <li class="font-italic">{{ photo.title }}</li>
-                <li class="font-italic">{{ photo.upload_dt|date:"Y-m-d" }}</li>
-            </ul> 
+    <div>
+        {% ifnotequal request.user profile.user %}
+            {% if request.user in profile.followers.all %}
+            <a href="{% url 'follow' profile.user.username %}" class="button">UnFollow</a>
+            {% else %}
+            <a href="{% url 'follow' profile.user.username %}" class="button">Follow</a>
+            {% endif %}
+        {% endifnotequal %}
+    </div>
+</header>
+<section id="content">
+{% ifnotequal request.user profile.user %}
+<div class="row">
+    {% for photo in photos %}
+    <div class="col-md-3 mb-5">       
+        <div class="tumbnail">
+            <a href="{{ photo.get_absolute_url }}">
+                {% thumbnail photo.image "128x128" crop="center" as im %}
+                <img src="{{ im.url }}" style="width: 100%;">
+                {% endthumbnail %}
+            </a>
         </div>
-        {% endfor %}
-    </div> 
+        <ul>
+            <li class="font-italic">{{ photo.title }}</li>
+            <li class="font-italic">{{ photo.upload_dt|date:"Y-m-d" }}</li>
+        </ul> 
+    </div>
+    {% endfor %}
+</div> 
+{% else %}
+<div class="row gtr-150">
+    <div class="col-4 col-12-medium">
+        <section id="sidebar">
+            <ul class="actions fit">
+                <li><a href="{% url 'photo:photo_add' %}" class="button">Add Photo</a></li>        
+            </ul>
+            <ul class="actions fit">
+                <li><a href="{% url 'password_change' %}" class="button">Change Password</a></li>        
+            </ul>
+        </section>
+    </div>
+    <div class="col-8 col-12-medium imp-medium">
+            <section id="content">
+                <div class="row">
+                    {% for photo in photos %}
+                    <div class="col-md-3 mb-5">       
+                        <div class="tumbnail">
+                            <a href="{{ photo.get_absolute_url }}">
+                                {% thumbnail photo.image "128x128" crop="center" as im %}
+                                <img src="{{ im.url }}" style="width: 100%;">
+                                {% endthumbnail %}
+                            </a>
+                        </div>
+                        <ul>
+                            <li class="font-italic">{{ photo.title }}</li>
+                            <li class="font-italic">{{ photo.upload_dt|date:"Y-m-d" }}</li>
+                        </ul> 
+                    </div>
+                    {% endfor %}
+                </div> 
+            </section>
+
+    </div>
 </div>
+{% endifnotequal %} 
+</section>   
 {% endblock %}

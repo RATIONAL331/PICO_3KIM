@@ -1,31 +1,46 @@
 {% extends "base.html" %}
 {% load sorl_thumbnail %}
 {% block title %}photo_list_rank.html{% endblock %}
-{% block extra-style %}
-<style>
-    .tumbnail{
-        border:5px solid #ccc;
-    }
-</style>
-{% endblock %}
 {% block content %}
-    <hr style="margin: 0 0 20px 0;">
-    <div class="row">
-        {% for photos in photo_list|slice:":5" %}
-        <div class="col-md-3 mb-5">
-            <div class="tumbnail">
-                <a href="{{ photos.0.get_absolute_url }}">
-                    {% thumbnail photos.0.image "128x128" crop="center" as im %}
-                    <img src="{{ im.url }}" style="width: 100%;">
-                    {% endthumbnail %}
-                </a>
+    
+<div class="row gtr-150">
+    <div class="col-4 col-12-medium">
+        <section id="sidebar">
+            <div class="col-6 col-12">
+                <ul class="actions fit"><li><a href="{% url 'photo:index' %}" class="button">New</a></li></ul>
+                <hr>
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_day' %}" class="button">Day</a></li></ul>
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_week' %}" class="button">Week</a></li></ul>
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_month' %}" class="button">Month</a></li></ul> 
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_3month' %}" class="button">3Month</a></li></ul>
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_year' %}" class="button">Year</a></li></ul>
+                <ul class="actions fit"><li><a href="{% url 'photo:rank_all' %}" class="button">All</a></li></ul>
             </div>
-            <ul>
-                <li class="font-italic">{{ photos.0.title }}</li>
-                <li class="font-italic">{{ photos.1.total_PICO }}</li>
-                <li class="font-italic">{{ photos.0.upload_dt|date:"Y-m-d" }}</li>
-            </ul>
-        </div>
-        {% endfor %}
+        </section>
     </div>
+    <div class="col-8 col-12-medium imp-medium">
+        <section id="content">
+            <div class="row">
+                {% for photos in photo_list %}
+                <div class="col-md-3 mb-5">
+                    <div class="tumbnail">
+                        <a href="{{ photos.0.get_absolute_url }}">
+                            {% thumbnail photos.0.image "128x128" crop="center" as im %}
+                            <img src="{{ im.url }}" style="width: 100%;">
+                            {% endthumbnail %}
+                        </a>
+                    </div>
+                    <ul>
+                        <li class="font-italic">{{ photos.0.title }}</li>
+                        <li class="font-italic">{{ photos.1.total_PICO }}</li>
+                        <li class="font-italic">{{ photos.0.upload_dt|date:"Y-m-d" }}</li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+    
 {% endblock %}
+

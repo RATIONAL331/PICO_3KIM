@@ -1,22 +1,137 @@
-{% extends "base.html" %}
 {% load static %}
-{% block title %}Home.html{% endblock %}
-{% block extra-style %}
-<style type="text/css">
-body { 
-  background: url("{% static 'img/firework.png' %}") no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}		
-</style>
-{% endblock %}
-{% block content %}
-<h1 style="display:flex; align-items: center; justify-content: center;">Express Yourself!</h1>
-{% endblock %}
-{% block footer %}
-<footer class="fixed-bottom bg-dark"> 
-  <div class="text-white font-italic text-right mr-5">Copyright&copy;2020 powered by 3KIM</div>
-</footer>
-{% endblock %}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>PICO</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    	<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+      <header id="header">
+        <h1 id="logo"><a href="{% url 'home' %}">PICO</a></h1>
+        <nav id="nav">
+          <ul>
+			<li>
+				<form action="{% url 'search' %}" method="GET">
+				  {% csrf_token %}
+				  <input type="search" placeholder="Search" aria-label="Search" name="search_word" value="{{ search_word }}" required>
+				</form>
+			</li> 
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'photo:index' %}">Rank</a></li>
+			<li><a href="{% url 'photo:follow' %}">Following</a></li>      
+            {% if user.is_active %}
+              <li><a href="{% url 'profile' user.get_username %}"><i class="fas fa-user"></i>&ensp;{% firstof user.get_short_name user.get_username %}&ensp;</a></li>
+			  <li><a href="{% url 'logout' %}" class="button primary">Sign out</a></li>
+			  {% else %}
+              <li><a href="{% url 'login' %}" class="button primary">Sign In</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+
+			<!-- Banner -->
+				<section id="banner">
+					<div class="content">
+						<header>
+							<h2>The future has landed</h2>
+							<p>And there are no hoverboards or flying cars.<br />
+							Just apps. Lots of mother flipping apps.</p>
+						</header>
+					</div>
+					<a href="#one" class="goto-next scrolly">Next</a>
+				</section>
+
+			<!-- One -->
+				<section id="one" class="spotlight style1 bottom">
+					<span class="image fit main"><img src="{% static 'images/firework.png' %}" alt="" /></span>
+					<div class="content">
+						<div class="container">
+							<div class="row">
+								<div class="col-4 col-12-medium">
+									<header>
+										<h2>Odio faucibus ipsum integer consequat</h2>
+										<p>Nascetur eu nibh vestibulum amet gravida nascetur praesent</p>
+									</header>
+								</div>
+								<div class="col-4 col-12-medium">
+									<p>Feugiat accumsan lorem eu ac lorem amet sed accumsan donec.
+									Blandit orci porttitor semper. Arcu phasellus tortor enim mi
+									nisi praesent dolor adipiscing. Integer mi sed nascetur cep aliquet
+									augue varius tempus lobortis porttitor accumsan consequat
+									adipiscing lorem dolor.</p>
+								</div>
+								<div class="col-4 col-12-medium">
+									<p>Morbi enim nascetur et placerat lorem sed iaculis neque ante
+									adipiscing adipiscing metus massa. Blandit orci porttitor semper.
+									Arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer
+									mi sed nascetur cep aliquet augue varius tempus. Feugiat lorem
+									ipsum dolor nullam.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<a href="#two" class="goto-next scrolly">Next</a>
+				</section>
+
+			<!-- Two -->
+				<section id="two" class="spotlight style2 right">
+					<span class="image fit main"><img src="{% static 'images/firework2.jpg' %}" alt="" /></span>
+					<div class="content">
+						<header>
+							<h2>Interdum amet non magna accumsan</h2>
+							<p>Nunc commodo accumsan eget id nisi eu col volutpat magna</p>
+						</header>
+						<p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
+						<ul class="actions">
+							<li><a href="{% url 'photo:index' %}" class="button">Learn More</a></li>
+						</ul>
+					</div>
+					<a href="#three" class="goto-next scrolly">Next</a>
+				</section>
+
+			<!-- Three -->
+				<section id="three" class="spotlight style3 left">
+					<span class="image fit main bottom"><img src="{% static 'images/pic04.jpg' %}" alt="" /></span>
+					<div class="content">
+						<header>
+							<h2>Interdum felis blandit praesent sed augue</h2>
+							<p>Accumsan integer ultricies aliquam vel massa sapien phasellus</p>
+						</header>
+						<p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
+						<ul class="actions">
+							<li><a href="{% url 'photo:follow' %}" class="button">Learn More</a></li>
+						</ul>
+					</div>
+				</section>
+			<!-- Footer -->
+      <footer id="footer">
+        <ul class="icons">
+          <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+        <ul class="copyright">
+          <li>&copy; PICO_3KIM All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </footer>
+    </div>
+
+		<!-- Scripts -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dropotron.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/util.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

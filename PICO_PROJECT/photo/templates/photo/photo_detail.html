@@ -2,14 +2,28 @@
 {% load disqus_tags %}
 {% block title %}photo_detail.html{% endblock %}
 {% block content %}
-<h2 class="mt-5">{{ object.title }}</h2>
-<div class="row">
-    <div class="col-md-9">
+<header class="major">
+    <h2>{{ object.title }}</h2>
+    <p>{{ object.owner.username }}</p>
+    {% ifequal request.user.username object.owner.username %}
+    <p><span>
+        <a href="{% url 'photo:photo_update' object.id %}" class="button">Update</a>
+        <a href="{% url 'photo:photo_delete' object.id %}" class="button">Delete</a>
+    </span></p>
+    {% endifequal %}
+    {% ifnotequal request.user.username object.owner.username %}
+    <p><a href="{% url 'photo:photo_donate' object.id %}" class="button primary">Donate</a></p>
+    {% endifnotequal %}
+</header>
+<section id="content">
+    <div class="col-12">
         <a href="{{ object.image.url }}">
-            <img src="{{ object.image.url }}" sylte="width: 100%;">
+            <span class="image fit">
+                <img src="{{ object.image.url }}" sylte="width: 100%;">
+            </span>
         </a>
     </div>
-    <ul class="col-md-3 mt-3">
+    <ul class="col-12">
         <li class="h5">Photo Description</li>
         {% if object.description %}
         <p>{{ object.description|linebreaks }}</p>
@@ -17,11 +31,9 @@
         <p>{{ blank }}</p>
         {% endif %}
         <li class="h5">Date Uploaded</li>
-        <p class="font-italic">{{ object.upload_dt }}</p>
-        <li class="h5">Owner</li>
-        <p class="font-italic">{{ object.owner.username }}</p>
+        <p>{{ object.upload_dt }}</p>
         <li class="h5">PICOIN</li>
-        <p class="font-italic"><a href="{% url 'photo:photo_pico_log' object.id %}" class="btn btn-primary">{{ object.PICOIN }}</a></p>
+        <p><a href="{% url 'photo:photo_pico_log' object.id %}" class="button primary small">{{ object.PICOIN }}</a></p>
         {% if donate_user_list %}
         <li class="h5">RANK</li>
         <table>
@@ -48,14 +60,13 @@
         
         </li>    
     </ul>
-</div>
-{% ifnotequal request.user.username object.owner.username %}
-<div>
-    <a href="{% url 'photo:photo_donate' object.id %}" class="btn btn-primary">donate</a>
-</div>
-<br>
-<div>      
-    {% disqus_show_comments %}
-</div>
-{% endifnotequal %}
+    <div>      
+        {% disqus_show_comments %}
+    </div>
+</section>
 {% endblock %}
+
+
+
+
+

@@ -1,39 +1,44 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
+{% load static %}
 
 {% block title %}register.html{% endblock %}
 
 {% block content %}
-<h1>New User Register</h1>
-<p class="font-italic">Please enter your username and password twice.</p>
-{% if form.errors %}
-<div class="alert alert-danger">
-    <div class="font-weight-bold">Wrong! Please Correct the error below.</div>
-    {{ form.errors }}
-</div>
-{% endif %}
-<form action="." method="POST" class="card pt-3" style="background-color: #222; color:#eee; border-color:#eee;">
-    {% csrf_token %}
-    <div class="form-group row">
-        {{ form.username|add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">{{ form.username|add_class:"form-control"|attr:"autofocus" }}</div>
+<section id="two" class="spotlight style2 right">
+    <span class="image fit main"><img src="{% static 'images/pic03.jpg' %}" alt="" /></span>
+    <div class="content">
+        <header class="major">
+            <h2>Register</h2>
+            {% if form.errors %}
+            <p>{{ form.errors }}</p>
+            {% endif %}
+        </header>
+        <form action="." method="POST" >
+            {% csrf_token %}
+            <div class="row gtr-uniform gtr-50">
+                <div class="col-12">
+                    {{ form.username|append_attr:"class:form-control"|append_attr:"placeholder:Username" }}
+                </div>
+                <div class="col-12">
+                    {{ form.email|append_attr:"class:form-control"|append_attr:"placeholder:Email" }}
+                </div>
+                <div class="col-12">
+                    {{ form.password1|append_attr:"class:form-control"|append_attr:"placeholder:Password" }}
+                </div>
+                <div class="col-12">
+                    {{ form.password2|append_attr:"class:form-control"|append_attr:"placeholder:Password(Check)" }}
+                </div>
+                <div class="row">
+                    <div class="col-6 col-12">
+                        <ul class="actions fit">
+                            <li><input type="submit" value="Register" class="button primary"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
     </div>
-    <div class="form-group row">
-        {{ form.email|add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">{{ form.email|add_class:"form-control" }}</div>
-    </div>
-    <div class="form-group row">
-        {{ form.password1|add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">{{ form.password1|add_class:"form-control" }}</div>
-    </div>
-    <div class="form-group row">
-        {{ form.password2|add_label_class:"col-form-label col-sm-3 ml-3 font-weight-bold" }}
-        <div class="col-sm-5">{{ form.password2|add_class:"form-control" }}</div>
-    </div>
-    <div class="form-group">
-        <div class="offset-sm-3 col-sm-5">
-            <input type="submit" value="Register" class="btn btn-info">
-        </div>
-    </div>
-</form>
+</section> 
 {% endblock %}
