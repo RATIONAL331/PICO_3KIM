@@ -21,7 +21,7 @@
     <div class="col-8 col-12-medium imp-medium">
         <section id="content">
             <div class="row">
-                {% for photos in photo_list|slice:":5" %}
+                {% for photos in photo_list %}
                 <div class="col-md-3 mb-5">
                     <div class="tumbnail">
                         <a href="{{ photos.0.get_absolute_url }}">

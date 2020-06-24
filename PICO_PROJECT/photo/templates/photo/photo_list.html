@@ -21,8 +21,8 @@
     <div class="col-8 col-12-medium imp-medium">
         <section id="content">
             <div class="row">
-                {% for photo in object_list|slice:":5" %}
-                <div class="col-md-3 mb-5">
+                {% for photo in object_list %}
+                <div>
                     <div class="tumbnail">
                         <a href="{{ photo.get_absolute_url }}">
                             {% thumbnail photo.image "128x128" crop="center" as im %}
