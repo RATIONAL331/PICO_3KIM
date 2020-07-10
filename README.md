@@ -9,14 +9,19 @@
 ## 후원 예시
 1. 후원하기 버튼은 자신의 사진이 아니면 후원버튼이 활성화된다.
 <img src="pico_readme/cap3.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-2. ㅇㅇㅇㅇㅇ
+
+2. 사진에 대해서 후원할 금액을 임의로 설정할 수 있다.
 <img src="pico_readme/cap4.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+
+3. 후원을 마치면 사진에 대해서 총 후원된 금액이 변경되는 것을 알 수 있다.   버튼을 클릭하면 내역을 볼 수 있다.
 <img src="pico_readme/cap5.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+
+4. 내역은 누가, 언제, 얼마나 후원했는지에 대한 정보를 볼 수 있다.
 <img src="pico_readme/cap6.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+
+5. 후원한 사람의 wallet정보를 들어가게 되면 누구한테 언제 얼마나 어떤 사진에 대해서 후원했는지에 대한 내역을 볼 수 있다.
 <img src="pico_readme/cap7.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+
+6. 후원 받은 사람도 누구한테 언제 얼마나 어떤 사진에 대해서 후원 받았는지에 대한 내역을 볼 수 있다.
 <img src="pico_readme/cap8.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+<hr/>
