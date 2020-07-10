@@ -7,9 +7,9 @@
 <img src="pico_readme/cap2.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
 
 ## 후원 예시
-ㅇㅇㅇㅇㅇ
+1. 후원하기 버튼은 자신의 사진이 아니면 후원버튼이 활성화된다.
 <img src="pico_readme/cap3.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
-ㅇㅇㅇㅇㅇ
+2. ㅇㅇㅇㅇㅇ
 <img src="pico_readme/cap4.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
 ㅇㅇㅇㅇㅇ
 <img src="pico_readme/cap5.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
