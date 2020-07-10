@@ -27,4 +27,6 @@
 
 ### 6. 후원 받은 사람도 누구한테 언제 얼마나 어떤 사진에 대해서 후원 받았는지에 대한 내역을 볼 수 있다.
 <img src="pico_readme/cap8.PNG" width="100%" height="100%" title="model" alt="Base Model"></img>
+
+### *참고로 위의 전 과정은 atomic하게 이루어진다.* 
 <hr/>
