@@ -61,7 +61,7 @@
 
 .filebox .upload-thumb-wrap {
 	display: inline-block;
-	width: 180px;
+	width: 360px;
 	padding: 2px;
 	vertical-align: middle;
 	border: 1px solid #ddd;
@@ -72,7 +72,7 @@
 .filebox .upload-display img {
 	display: block;
 	max-width: 100%;
-	width: 100% \9;
+	width: 100%;
 	height: auto;
 }
 
@@ -175,15 +175,13 @@
                     <div class="form-group row">
                         {{ form.title|append_attr:"class:form-control"|append_attr:"placeholder:Title" }}
                     </div>
-                    <!-- vue로 이미지를 드래그 드롭으로 업로드가능할 수 있는 기능을 도입할 예정-->
-                    <div class="h-100 form-group row">
-                        {{ form.image|add_label_class:"col-form-label col-sm-2 ml-3 font-weight-bold" }}
+                    <div class="form-group row">
+                        {{ form.image|append_attr:"class:form-control"|add_label_class:"col-form-label" }}
                         <div class="filebox bs3-primary preview-image ">
                             <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
                             <label for="id_image">업로드</label> 
                             {{ form.image|add_class:"upload-hidden" }} 
                         </div>
-
                     </div>
                     <div class="form-group row">
                         {{ form.description|append_attr:"class:form-control"|append_attr:"rows:3"|append_attr:"placeholder:Description" }}
