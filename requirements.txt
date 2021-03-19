@@ -10,7 +10,7 @@ django-disqus==0.5
 django-taggit==1.2.0
 django-taggit-templatetags2==1.6.1
 django-widget-tweaks==1.4.8
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 docutils==0.16
 isort==4.3.21
 lazy-object-proxy==1.4.3
